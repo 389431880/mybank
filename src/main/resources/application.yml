@@ -1,0 +1,12 @@
+spring:
+  http:
+    encoding:
+      force: true
+server:
+  port: 8891
+
+my_bank_config:
+  partner_id: 200002007807
+  ip_role_id: 226610000051657147614
+  wallet_public_key: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQD5HGOnoWSeY1pjkruBlSTjy0ivqCHtO8Rc0SgycaVLj15Wdn9Wp/K0P+HYKm2BMMdieApHmITteNFahZho7CPcVFDoed3XpkJfZ0qgob27ezl4jALNaYacPr+L/9haxmZYf/Kc5QOMgDszCKEBkfUc3YPRuP5a6Q6dZe5iUzfaTwIDAQAB
+

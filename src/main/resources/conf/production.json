@@ -1,0 +1,14 @@
+{
+
+  "license" : "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQD5HGOnoWSeY1pjkruBlSTjy0ivqCHtO8Rc0SgycaVLj15Wdn9Wp/K0P+HYKm2BMMdieApHmITteNFahZho7CPcVFDoed3XpkJfZ0qgob27ezl4jALNaYacPr+L/9haxmZYf/Kc5QOMgDszCKEBkfUc3YPRuP5a6Q6dZe5iUzfaTwIDAQAB",
+
+  "keyStore" : [
+    {
+      "name" : "testKeyStore",
+      "type" : "PKCS12",
+      "provider" : "",
+      "keyStorePath" : "/usr/local/wwwroot/myBank/conf/yinqizhiliantest.pfx",
+      "password" : "mayibank"
+    }
+  ]
+}
