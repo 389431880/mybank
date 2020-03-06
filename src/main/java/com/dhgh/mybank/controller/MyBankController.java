@@ -34,7 +34,7 @@ public class MyBankController {
 
 	//	@CrossOrigin(origins = "http://domain2.com")
 	@CrossOrigin(origins = "*")
-	@PostMapping(value = "/register")	// 注册
+	@PostMapping(value = "/register")	// 个人注册
 	public Map<String,String> register(@RequestBody(required = false) Map<String, String> params) {
 		Map<String, String> result = new HashMap<>();
 		params = new HashMap<>();
@@ -49,7 +49,7 @@ public class MyBankController {
 			params.put("partner_id", partner_id);
 			params.put("real_name", "3uu8r");
 			params.put("service", "mybank.tc.user.personal.register");
-			params.put("uid", "3e80bad757fe423492c4278074ca3b95");
+			params.put("uid", "779b29f273fe4eb8b492371732322b11");
 			params.put("version", "2.0");
 
 			send = MagCore.paraFilter2(params);
@@ -68,6 +68,63 @@ public class MyBankController {
 					result.put("is_success", "success");
 					result.put("member_id", member_id);
 					result.put("sub_account_no", sub_account_no);
+					result.put("main_account_no", "58453427229");
+					result.put("payee_card_name", "新增企业八");
+				} else {
+					result.put("code", "0");
+					result.put("is_success", "false");
+					result.put("remark", jsonData.getString("error_message"));
+				}
+			} else {
+				result.put("code", "0");
+				result.put("is_success", "false");
+				result.put("remark", data);
+			}
+		} catch (Exception e) {
+			result.put("code", "0");
+			result.put("is_success", "false");
+			result.put("remark", e.getMessage());
+		}
+
+		return result;
+	}
+
+	@CrossOrigin(origins = "*")
+	@PostMapping(value = "/enterpriseRegister")	// 企业注册
+	public Map<String,String> enterpriseRegister(@RequestBody(required = false) Map<String, String> params) {
+		Map<String, String> result = new HashMap<>();
+		params = new HashMap<>();
+
+		String gatewayUrl = "http://test.tc.mybank.cn/gop/gateway.do";
+		try {
+			Map<String, String> send;
+
+			params.put("version", "2.0");
+			params.put("partner_id", partner_id);
+			params.put("charset", "UTF-8");
+			params.put("service", "mybank.tc.user.enterprise.register");
+			params.put("uid", "3e80bad757fe423492c4278074ca3b95");
+			params.put("member_name", "模拟企业户");
+			params.put("enterprise_name", "模拟企业户一");
+
+			send = MagCore.paraFilter2(params);
+			String sign = MagCore.buildRequestByTWSIGN(send,"utf-8", GatewayConstant.KEY_STORE_NAME);
+			send.put("sign", sign);
+			send.put("sign_type", "TWSIGN");
+			String data = doHttpClientPost(gatewayUrl, send);
+
+			JSONObject jsonData = new JSONObject(data);
+			if (!StringUtils.isEmpty(jsonData.getString("is_success"))) {
+				if ("T".equals(jsonData.getString("is_success"))) {
+					String member_id = jsonData.getString("member_id");
+					String sub_account_no = jsonData.getString("sub_account_no");
+
+					result.put("code", "1");
+					result.put("is_success", "success");
+					result.put("member_id", member_id);
+					result.put("sub_account_no", sub_account_no);
+					result.put("main_account_no", "58453427229");
+					result.put("payee_card_name", "新增企业八");
 				} else {
 					result.put("code", "0");
 					result.put("is_success", "false");
@@ -106,10 +163,10 @@ public class MyBankController {
 			params.put("fundin_account_type", GatewayConstant.account_type);
 			params.put("fundout_account_type", GatewayConstant.account_type);
 			params.put("transfer_amount", "100");
-			params.put("notify_url", "www.fyez56.com/bank/transferNotify");
+			params.put("notify_url", "http://www.fyez56.com/bank/transferNotify");
 //			params.put("fundin_uid", partner_id);
 //			params.put("fundout_uid", "147852369@qq.com");
-
+			System.out.println(params);
 			send = MagCore.paraFilter2(params);
 			String sign = MagCore.buildRequestByTWSIGN(send,"utf-8", GatewayConstant.KEY_STORE_NAME);
 			send.put("sign", sign);
@@ -165,12 +222,14 @@ public class MyBankController {
 			params.put("payee_card_name","新增企业八");
 			params.put("amount", "10000");
 			params.put("payer_remark","汇款");
-			params.put("notify_url", "http%3A%2F%2Ftest.tc.mybank.cn%2Fgop-test%2Fmag%2FasynNotify.htm");
+			params.put("notify_url", "http://www.fyez56.com/fyez/bank/transferNotify");
 
+			System.out.println(params);
 			send = MagCore.paraFilter2(params);
 			String sign = MagCore.buildRequestByTWSIGN(send,"utf-8", GatewayConstant.KEY_STORE_NAME);
 			send.put("sign", sign);
 			send.put("sign_type", GatewayConstant.sign_type);
+
 			String data = doHttpClientPost(gatewayUrl, send);
 
 			JSONObject jsonData = new JSONObject(data);
@@ -181,6 +240,8 @@ public class MyBankController {
 					result.put("code", "1");
 					result.put("is_success", "success");
 					result.put("remark", memo);
+					result.put("payee_card_no", "5845342722900644096");
+					result.put("payee_card_name", "新增企业八");
 				} else {
 					result.put("code", "0");
 					result.put("is_success", "false");
@@ -216,7 +277,7 @@ public class MyBankController {
 			params.put("partner_id", "200002007807");
 			params.put("service", "mybank.tc.user.bankcard.bind");
 			params.put("account_name", "测试用户");
-			params.put("bank_account_no", "6225885425698746");
+			params.put("bank_account_no", "6225885425699746");
 			params.put("bank_branch", "浦东支行");
 			params.put("bank_code", "CMB");
 			params.put("bank_name", "招商银行");
@@ -227,7 +288,7 @@ public class MyBankController {
 			params.put("pay_attribute", "normal");
 			params.put("province", "上海市");
 			params.put("reserved_mobile", "13866668888");
-			params.put("uid", "3e80bad757fe423492c4278074ca3b95");
+			params.put("uid", "779b29f273fe4eb8b492371732322b11");
 			params.put("version", "2.0");;
 			params.put("timestamp", "20170106134055");
 			params.put("version", "2.0");
@@ -287,15 +348,15 @@ public class MyBankController {
 
 			params.put("account_type", "BASIC");
 			params.put("amount", "10");
-			params.put("uid", "3e80bad757fe423492c4278074ca3b95");
+			params.put("uid", "779b29f273fe4eb8b492371732322b11");
 			params.put("return_url", "http://test.tc.mybank.cn/gop-test/mag/syncNotify.htm");
 			params.put("bank_account_no", "6225885425698746");
-			params.put("bank_id", "13784");
+			params.put("bank_id", "14020");
 			params.put("is_web_access", "Y");
 			params.put("outer_inst_order_no", produceTradeNo());
 			params.put("outer_trade_no", produceTradeNo());
 			params.put("white_channel_code", "MYBANK00097");
-			params.put("notify_url", "www.fyez56.com/bank/payToCardNotify");
+			params.put("notify_url", "http://www.fyez56.com/bank/payToCardNotify");
 
 			send = MagCore.paraFilter2(params);
 			String sign = MagCore.buildRequestByTWSIGN(send,"utf-8", GatewayConstant.KEY_STORE_NAME);
@@ -444,7 +505,7 @@ public class MyBankController {
 	}
 
 	@CrossOrigin(origins = "*")
-	@PostMapping(value = "/queryCardbin") // 绑卡
+	@PostMapping(value = "/queryCardbin") // 查询卡BIN
 	public Map<String,String> queryCardbin(@RequestBody(required = false) Map<String, String> params) {
 		Map<String, String> result = new HashMap<>();
 		if (ObjectUtils.isEmpty(params)) {
@@ -460,7 +521,6 @@ public class MyBankController {
 			params.put("service", "mybank.tc.user.cardbin.query");
 			params.put("version", "2.0");;
 			params.put("timestamp", "20170106134055");
-			params.put("version", "2.0");
 			params.put("sign_type", "TWSIGN");
 			params.put("bank_account_no", "6214835530629805");
 			send = MagCore.paraFilter2(params);
